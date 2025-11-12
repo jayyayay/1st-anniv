@@ -1,57 +1,62 @@
-const popup = document.getElementById('popup');
-const popupText = document.getElementById('popupText');
-const startBtn = document.getElementById('startBtn');
-const videoContainer = document.getElementById('videoContainer');
-const video = document.getElementById('surpriseVideo');
-const message = document.getElementById('message');
+// ==== STAR ANIMATION ====
+const starsContainer = document.querySelector(".stars");
 
-const popupTextFull = "Happy Anniversary Lovee 💖";
-let index = 0;
-
-function typePopup() {
-  if (index < popupTextFull.length) {
-    popupText.textContent += popupTextFull.charAt(index);
-    index++;
-    setTimeout(typePopup, 100);
-  } else {
-    setTimeout(() => {
-      startBtn.classList.remove('hidden');
-    }, 800);
-  }
+for (let i = 0; i < 150; i++) {
+  const star = document.createElement("span");
+  star.classList.add("star");
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 3 + "s";
+  star.style.animationDuration = 3 + Math.random() * 4 + "s";
+  starsContainer.appendChild(star);
 }
 
-typePopup();
+// ==== ELEMENTS ====
+const startBtn = document.getElementById("startBtn");
+const intro = document.getElementById("intro");
+const annivText = document.getElementById("annivText");
+const surpriseContainer = document.getElementById("surpriseContainer");
+const videoSection = document.getElementById("videoSection");
+const message = document.getElementById("message");
+const video = document.getElementById("annivVideo");
 
-startBtn.addEventListener('click', () => {
-  popup.style.display = 'none';
-  setTimeout(showVideo, 500);
+// ==== FLOW ====
+startBtn.addEventListener("click", () => {
+  intro.classList.add("fade-out");
+  setTimeout(() => {
+    intro.style.display = "none";
+    showAnniv();
+  }, 1000);
 });
+
+function showAnniv() {
+  surpriseContainer.style.display = "flex";
+  setTimeout(() => surpriseContainer.classList.add("show"), 100);
+
+  setTimeout(() => {
+    surpriseContainer.classList.remove("show");
+    setTimeout(() => {
+      surpriseContainer.style.display = "none";
+      showVideo();
+    }, 1000);
+  }, 3500);
+}
 
 function showVideo() {
-  videoContainer.style.display = 'flex';
+  videoSection.style.display = "flex";
+  setTimeout(() => videoSection.classList.add("show"), 100);
   video.play();
-}
 
-video.addEventListener('ended', () => {
-  fadeToMessage();
-});
-
-function fadeToMessage() {
-  videoContainer.style.opacity = 0;
-  setTimeout(() => {
-    videoContainer.style.display = "none";
-    showMessage();
-  }, 1500);
+  video.addEventListener("ended", () => {
+    videoSection.classList.remove("show");
+    setTimeout(() => {
+      videoSection.style.display = "none";
+      showMessage();
+    }, 1000);
+  });
 }
 
 function showMessage() {
-  message.innerHTML = `
-    Hari ini bukan cuma tentang tanggal, tapi tentang setiap momen kecil yang udah kita lewatin bareng.<br><br>
-    Dari tawa, marah, cemburu, sampe hal-hal kecil yang bikin aku makin yakin kalau kamu itu spesial banget 💞<br><br>
-    Aku tau kadang aku ngeselin, tapi kamu selalu sabar dan tetep sayang.<br><br>
-    Makasih yaa udah jadi rumah yang selalu aku cari, tempat aku balik, tempat aku nyaman.<br><br>
-    Aku cuma mau bilang satu hal — aku bersyukur banget punya kamu.  
-    Happy anniversary, love. Ini semua buat kamu 💖✨
-  `;
-  message.style.display = 'block';
+  message.style.display = "flex";
+  setTimeout(() => message.classList.add("show"), 100);
 }
