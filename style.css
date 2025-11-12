@@ -1,113 +1,189 @@
+/* GENERAL STYLE */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-body, html {
-  width: 100%;
-  height: 100%;
+body {
+  background: linear-gradient(135deg, #ffd1dc, #ffeef2);
   overflow: hidden;
-  font-family: "Poppins", sans-serif;
-  background-color: #ffeef2;
+  height: 100vh;
+}
+
+/* STARS BACKGROUND */
+.stars {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 4px white);
+  animation: twinkleMove 5s infinite ease-in-out;
+}
+
+@keyframes twinkleMove {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(20px) scale(1.4);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(40px) scale(0.8);
+  }
+}
+
+/* INTRO SECTION */
+.intro {
+  position: absolute;
+  inset: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #444;
-}
-
-/* popup awal */
-#popup {
-  position: absolute;
+  background: transparent;
   text-align: center;
-  animation: fadeIn 1s ease;
+  z-index: 10;
+  transition: opacity 1s ease;
 }
 
-#popupText {
-  font-size: 2.5em;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #ff5e84;
-  animation: floatText 2.5s ease-in-out infinite;
-  text-shadow: none;
-  background: none;
-  padding: 0;
+.intro.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
-@keyframes floatText {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+#surpriseText {
+  font-size: 1.8rem;
+  color: #ff5d8f;
+  margin-bottom: 20px;
 }
 
 #startBtn {
-  margin-top: 20px;
-  background: #ff9bb3;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 25px;
+  padding: 12px 28px;
+  font-size: 1.2rem;
+  background: #ff7aa8;
   color: white;
-  font-size: 1em;
+  border: none;
+  border-radius: 25px;
   cursor: pointer;
   transition: 0.3s;
-  box-shadow: 0 0 10px rgba(255, 120, 150, 0.5);
+  z-index: 20;
 }
 
 #startBtn:hover {
-  background: #ff7793;
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(255, 140, 160, 0.7);
+  transform: scale(1.1);
+  background: #ff5d8f;
 }
 
-/* video section */
-#videoContainer {
+/* ANNIVERSARY TEXT */
+.surprise-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   display: none;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 240, 245, 0.9);
-  transition: opacity 1.5s ease;
+  text-align: center;
+  z-index: 8;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
-#surpriseVideo {
-  width: 70%;
-  max-width: 900px;
-  border-radius: 20px;
-  border: 3px solid rgba(255, 150, 180, 0.3);
-  transition: all 0.5s ease;
+.surprise-container.show {
+  display: flex;
+  opacity: 1;
 }
 
-/* efek hover video */
-#surpriseVideo:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 25px rgba(255, 120, 150, 0.6);
+#annivText {
+  font-size: 2.5rem;
+  color: #ff5d8f;
+  animation: fadeInZoom 2s ease forwards;
 }
 
-/* pesan akhir */
-#message {
+@keyframes fadeInZoom {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* VIDEO SECTION */
+.video-section {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 240, 245, 0.9);
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 5;
+}
+
+.video-section.show {
+  display: flex;
+  opacity: 1;
+}
+
+.video-section video {
   width: 80%;
   max-width: 700px;
-  font-size: 1.1em;
-  line-height: 1.8;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 160, 180, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.video-section video:hover {
+  transform: scale(1.02);
+}
+
+/* MESSAGE SECTION */
+.message {
+  position: absolute;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
-  color: #4b4b4b;
+  background: rgba(255, 250, 252, 0.9);
   opacity: 0;
-  display: none;
-  animation: fadeIn 2s ease forwards;
+  transition: opacity 1.2s ease;
+  z-index: 5;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.message.show {
+  display: flex;
+  opacity: 1;
 }
 
-.hidden {
-  display: none;
+.message-content {
+  max-width: 700px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(255, 180, 200, 0.5);
+}
+
+.message-content h2 {
+  color: #ff5d8f;
+  margin-bottom: 10px;
+}
+
+.message-content p {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.7;
 }
